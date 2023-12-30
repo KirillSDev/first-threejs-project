@@ -14,10 +14,13 @@ const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 // Material
 const material = new THREE.MeshBasicMaterial({
     color: '#FF0000',
+    wireframe: true
 })
 
 // Mesh --> 
 const mesh = new THREE.Mesh(boxGeometry, material);
+mesh.rotateX(0.2);
+mesh.rotateY(15);
 
 scene.add(mesh);
 
@@ -42,3 +45,11 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 
 renderer.render(scene, camera);
+
+// Control
+document.onkeydown = ((ev: KeyboardEvent) => {
+    if (ev.ctrlKey) {
+         mesh.rotateY(0.1);
+         renderer.render(scene, camera);
+    }
+ });
