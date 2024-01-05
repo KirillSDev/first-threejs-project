@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-
+import gsap from 'gsap';
 
 // Canvas 
 
@@ -18,7 +18,7 @@ const materialRed = new THREE.MeshBasicMaterial({
 })
 const materialGreen = new THREE.MeshBasicMaterial({
     color: '#68da66',
-    wireframe: true
+    
 })
 const materialBlue = new THREE.MeshBasicMaterial({
     color: '#a5f7f4',
@@ -66,12 +66,29 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(sizes.width, sizes.height);
 
-renderer.render(scene, camera);
+const clock = new THREE.Clock();
+
+gsap.to(mesh1.rotation, {duration: 1, y: Math.PI * 2, delay: 2})
+gsap.to(mesh3.rotation, {duration: 2, y: Math.PI * 2, delay: 1})
+
+const tick = () =>
+{
+    // Update objects
+    group.rotation.y = clock.getElapsedTime();
+    // Render
+    renderer.render(scene, camera)
+
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick)
+}
+
+tick();
 
 // Control
 document.onkeydown = ((ev: KeyboardEvent) => {
     if (ev.ctrlKey) {
         group.rotateY(0.1);
         renderer.render(scene, camera);
+        window.requestAnimationFrame(tick)
     }
  });
