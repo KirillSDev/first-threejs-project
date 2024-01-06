@@ -1,9 +1,10 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import gsap from 'gsap';
 
 // Canvas 
 
-const canvas = document.querySelector('canvas.webgl');
+const canvas: HTMLElement = document.querySelector('canvas.webgl');
 
 // Scene
 const scene = new THREE.Scene();
@@ -42,7 +43,7 @@ mesh1.scale.y = 2;
 mesh3.scale.y = 2;
 
 group.add(mesh1, mesh2, mesh3);
-group.rotation.set(0.2, Math.PI / 3, 0);
+// group.rotation.set(0.2, Math.PI / 3, 0);
 scene.add(group);
 
 const sizes = {
@@ -52,11 +53,15 @@ const sizes = {
 
 //Camera 
 const camera = new THREE.PerspectiveCamera(65, sizes.width / sizes.height);
-camera.position.x = 0.5;
-camera.position.y = 0.5;
+// camera.position.x = 0.5;
+// camera.position.y = 0.5;
 camera.position.z = 3;
 camera.lookAt(group.position);
 scene.add(camera);
+
+
+const orbitControls = new OrbitControls(camera, canvas);
+orbitControls.enableDamping = true;
 
 // Renderer 
 
@@ -66,16 +71,30 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(sizes.width, sizes.height);
 
-const clock = new THREE.Clock();
+// const clock = new THREE.Clock();
 
-gsap.to(mesh1.rotation, {duration: 1, y: Math.PI * 2, delay: 2})
-gsap.to(mesh3.rotation, {duration: 2, y: Math.PI * 2, delay: 1})
+//Animations
+// gsap.to(mesh1.rotation, {duration: 1, y: Math.PI * 2, delay: 2})
+// gsap.to(mesh3.rotation, {duration: 2, y: Math.PI * 2, delay: 1})
+
+const cursor = {
+    position: {
+        x: 0,
+        y: 0
+    }
+}
 
 const tick = () =>
 {
     // Update objects
-    group.rotation.y = clock.getElapsedTime();
+    // group.rotation.y = clock.getElapsedTime();
+    // group.position.x = Math.sin(cursor.position.x * Math.PI * 2)  * 3
+    // group.position.z = Math.cos(cursor.position.x  * Math.PI * 2) * 3
+    // group.position.y = cursor.position.y * 5
+    // group.position.y = cursor.position.y * 2
     // Render
+    // camera.lookAt(group.position);
+    orbitControls.update();
     renderer.render(scene, camera)
 
     // Call tick again on the next frame
