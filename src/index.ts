@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import './styles.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import gsap from 'gsap';
 
@@ -47,9 +48,11 @@ group.add(mesh1, mesh2, mesh3);
 scene.add(group);
 
 const sizes = {
-    width: 720,
-    height: 540,
+    width: window.innerWidth,
+    height: window.innerHeight,
 }
+
+
 
 //Camera 
 const camera = new THREE.PerspectiveCamera(65, sizes.width / sizes.height);
@@ -111,3 +114,38 @@ document.onkeydown = ((ev: KeyboardEvent) => {
         window.requestAnimationFrame(tick)
     }
  });
+
+ window.addEventListener('resize', () => {
+    // Update sizes
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+
+    // Update camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
+
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height)
+    
+});
+
+window.addEventListener('dblclick', () => {
+    const fullscreenElement = document.fullscreenElement;
+
+    if(!fullscreenElement)
+    {
+        if(canvas.requestFullscreen)
+        {
+            canvas.requestFullscreen()
+        }
+        
+    }
+    else
+    {
+        if(document.exitFullscreen)
+        {
+            document.exitFullscreen()
+        }
+    
+    }
+})
