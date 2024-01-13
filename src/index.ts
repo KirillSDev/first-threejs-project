@@ -13,6 +13,41 @@ const scene = new THREE.Scene();
 // Geometry
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 
+
+// BufferGeometry 
+const bufferGeometry = new THREE.BufferGeometry();
+
+const quantity = 500;
+const arrayLength = quantity * 3 * 3;
+const positions = new Float32Array(arrayLength);
+
+for (let i=0; i < arrayLength; i++) {
+    positions[i] = (Math.random() - 0.5) * 2;
+}
+
+
+// // one Vertex
+// positions[0] = 0;
+// positions[1] = 0;
+// positions[2] = 0;
+
+// // second 
+// positions[3] = 0;
+// positions[4] = 1;
+// positions[5] = 0;
+
+
+// //third
+// positions[6] = 1;
+// positions[7] = 0;
+// positions[8] = 0;
+
+
+
+const bufferAtribute = new THREE.BufferAttribute(positions, 3);
+
+bufferGeometry.setAttribute('position', bufferAtribute);
+
 // Material
 const materialRed = new THREE.MeshBasicMaterial({
     color: '#FF0000',
@@ -27,15 +62,20 @@ const materialBlue = new THREE.MeshBasicMaterial({
     wireframe: true
 })
 
+const materialBuffer = new THREE.MeshBasicMaterial({
+    color: '#a523f4',
+    wireframe: true,
+})
 
 const AxesHelper = new THREE.AxesHelper(5);
 
-scene.add(AxesHelper);
+// scene.add(AxesHelper);
 // Mesh --> 
 const group = new THREE.Group();
 const mesh1 = new THREE.Mesh(boxGeometry, materialRed);
 const mesh2 = new THREE.Mesh(boxGeometry, materialGreen);
 const mesh3 = new THREE.Mesh(boxGeometry, materialBlue);
+const mesh4 = new THREE.Mesh(bufferGeometry, materialBuffer);
 mesh1.position.x = 1;
 mesh1.position.y = 0.5;
 mesh3.position.x = -1;
@@ -43,7 +83,7 @@ mesh3.position.y = 0.5;
 mesh1.scale.y = 2;
 mesh3.scale.y = 2;
 
-group.add(mesh1, mesh2, mesh3);
+group.add(mesh4);
 // group.rotation.set(0.2, Math.PI / 3, 0);
 scene.add(group);
 
