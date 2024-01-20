@@ -2,6 +2,15 @@ import * as THREE from 'three';
 import './styles.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import gsap from 'gsap';
+import GUI from 'lil-gui';
+
+
+
+
+// Debug 
+const gui = new GUI();
+
+
 
 // Canvas 
 
@@ -64,7 +73,7 @@ const materialBlue = new THREE.MeshBasicMaterial({
 
 const materialBuffer = new THREE.MeshBasicMaterial({
     color: '#a523f4',
-    wireframe: true,
+    // wireframe: true,
 })
 
 const AxesHelper = new THREE.AxesHelper(5);
@@ -83,7 +92,7 @@ mesh3.position.y = 0.5;
 mesh1.scale.y = 2;
 mesh3.scale.y = 2;
 
-group.add(mesh4);
+group.add(mesh1, mesh2, mesh3);
 // group.rotation.set(0.2, Math.PI / 3, 0);
 scene.add(group);
 
@@ -92,7 +101,22 @@ const sizes = {
     height: window.innerHeight,
 }
 
-
+const debugObj = {
+}
+debugObj['animate'] = () =>  {
+    gsap.to(mesh1.rotation, {
+       'y': mesh1.rotation.y + Math.PI * 2
+    })
+}
+gui.add(mesh1.material, 'wireframe').name("mesh1");
+gui.add(mesh2.material, 'wireframe').name("mesh2");
+gui.add(mesh3.material, 'wireframe').name("mesh3");
+gui.addColor(mesh1.material, 'color');
+gui.add(group.position, 'y')
+    .min(-1)
+    .max(1)
+    .step(0.01);
+gui.add(debugObj, 'animate');
 
 //Camera 
 const camera = new THREE.PerspectiveCamera(65, sizes.width / sizes.height);
