@@ -3,9 +3,17 @@ import './styles.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import gsap from 'gsap';
 import GUI from 'lil-gui';
+import BoxImage from './assets/box3.png'
 
+// Texture
+const textureLoader = new THREE.TextureLoader()
+const texture = textureLoader.load(BoxImage, () => {
 
+}, () => {
 
+}, (e) => {
+    console.log(e);
+})
 
 // Debug 
 const gui = new GUI();
@@ -59,8 +67,7 @@ bufferGeometry.setAttribute('position', bufferAtribute);
 
 // Material
 const materialRed = new THREE.MeshBasicMaterial({
-    color: '#FF0000',
-    wireframe: true
+    map: texture,
 })
 const materialGreen = new THREE.MeshBasicMaterial({
     color: '#68da66',
